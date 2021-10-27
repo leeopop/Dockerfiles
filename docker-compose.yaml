@@ -2,7 +2,7 @@ version: "3"
 
 services:
   debian:
-    restart: on-failure
+    restart: unless-stopped
     build:
       context: .
       dockerfile: debian/debian.Dockerfile
@@ -12,7 +12,7 @@ services:
       - SERVICE_HOST
       - USER_NAME=${USER_NAME:-leeopop}
   dpdk:
-    restart: on-failure
+    restart: unless-stopped
     build:
       context: .
       dockerfile: dpdk/dpdk.Dockerfile
@@ -22,7 +22,7 @@ services:
       - SERVICE_HOST
       - USER_NAME=${USER_NAME:-leeopop}
   node:
-    restart: on-failure
+    restart: unless-stopped
     build:
       context: .
       dockerfile: node/node.Dockerfile
