@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  debian:
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: debian/debian.Dockerfile
+    ports:
+      - "${SERVICE_HOST:-127.0.0.1}:11022:22"
+    environment:
+      - SERVICE_HOST
+      - USER_NAME=${USER_NAME:-leeopop}
