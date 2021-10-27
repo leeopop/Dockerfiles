@@ -17,7 +17,7 @@ services:
       context: .
       dockerfile: dpdk/dpdk.Dockerfile
     ports:
-      - "${SERVICE_HOST:-127.0.0.1}:11022:22"
+      - "${SERVICE_HOST:-127.0.0.1}:12022:22"
     environment:
       - SERVICE_HOST
       - USER_NAME=${USER_NAME:-leeopop}
