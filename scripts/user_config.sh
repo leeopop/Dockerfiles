@@ -33,3 +33,7 @@ chmod u+x ~/.bin/git-token.sh
 GIT_PASSWORD=`cat /shared/GIT_PASSWORD`
 echo "export GIT_PASSWORD=$GIT_PASSWORD" >> ~/.profile
 echo "export GIT_ASKPASS=$HOME/.bin/git-token.sh" >> ~/.profile
+
+if [ -d "/workspace" ] ; then
+  ln -s /workspace "$HOME/workspace"
+fi

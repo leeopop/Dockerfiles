@@ -11,6 +11,8 @@ services:
     environment:
       - SERVICE_HOST
       - USER_NAME=${USER_NAME:-leeopop}
+    volumes:
+      - debian-workspace:/workspace
   dpdk:
     restart: unless-stopped
     build:
@@ -21,6 +23,8 @@ services:
     environment:
       - SERVICE_HOST
       - USER_NAME=${USER_NAME:-leeopop}
+    volumes:
+      - dpdk-workspace:/workspace
   node:
     restart: unless-stopped
     build:
@@ -30,3 +34,9 @@ services:
       - "${SERVICE_HOST:-127.0.0.1}:13022:22"
     environment:
       - SERVICE_HOST
+    volumes:
+      - node-workspace:/workspace
+volumes:
+  debian-workspace:
+  dpdk-workspace:
+  node-workspace:

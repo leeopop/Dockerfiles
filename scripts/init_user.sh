@@ -5,9 +5,12 @@ chmod -R +r /shared
 
 usermod --password $ROOT_PASSWORD root
 if id "USER_NAME" &>/dev/null; then
-    echo "USER $USER_NAME already exists"
+  echo "USER $USER_NAME already exists"
 else
-    useradd -ms /bin/bash "$USER_NAME"
+  useradd -ms /bin/bash "$USER_NAME"
+fi
+if [ -d "/workspace" ] ; then
+  chmod 777 /workspace
 fi
 su - $USER_NAME /init-scripts/user_config.sh
 
