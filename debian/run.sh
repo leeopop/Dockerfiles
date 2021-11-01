@@ -2,5 +2,5 @@
 cd /init-scripts
 source ./setenv.sh
 
-/init-scripts/init_user.sh
+su - $USER_NAME /init-scripts/link_workspace.sh
 /init-scripts/sshd.sh

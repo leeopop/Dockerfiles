@@ -10,6 +10,7 @@ ADD .env /init-scripts/
 ADD *.sh /init-scripts/
 
 WORKDIR /init-scripts
+RUN /init-scripts/init_user.sh
 
 EXPOSE 22
 
