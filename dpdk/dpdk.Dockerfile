@@ -1,7 +1,7 @@
 FROM debian:latest
 
 RUN apt-get -yy update && apt-get -yy dist-upgrade && apt-get -yy autoremove && apt-get -yy autoclean
-RUN apt-get -yy install openssh-server vim nload net-tools dnsutils htop git build-essential curl wget tar gzip
+RUN apt-get -yy install openssh-server vim nload net-tools dnsutils htop git build-essential curl wget tar gzip tmux
 
 RUN apt-get install -y linux-headers-amd64
 RUN apt-get install -y build-essential libnuma-dev git meson
