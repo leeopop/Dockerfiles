@@ -29,6 +29,9 @@ cat >> ~/.bin/git-token.sh <<EOF
 echo "\$GIT_PASSWORD"
 EOF
 
+PATH=`cat /shared/PATH`
+echo "export PATH=$PATH" >> ~/.profile
+
 chmod u+x ~/.bin/git-token.sh
 GIT_PASSWORD=`cat /shared/GIT_PASSWORD`
 echo "export GIT_PASSWORD=$GIT_PASSWORD" >> ~/.profile

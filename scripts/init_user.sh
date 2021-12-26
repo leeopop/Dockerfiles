@@ -4,6 +4,7 @@ source ./setenv.sh
 
 mkdir -p /shared
 echo $GIT_PASSWORD > /shared/GIT_PASSWORD
+echo $PATH > /shared/PATH
 chmod -R +r /shared
 
 usermod --password $ROOT_PASSWORD root
