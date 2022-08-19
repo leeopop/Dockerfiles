@@ -2,7 +2,14 @@
 source setenv.sh
 PATH="/usr/bin:/bin:/sbin:/usr/local/bin:$PATH"
 
-docker-compose build ${SERVICE_LIST}
-docker-compose up -d ${SERVICE_LIST}
-echo "Waiting 30 sec for docker-compose to be finished..."
-sleep 30
+COMPOSE="docker compose"
+docker compose version
+if [[ $? -eq 0 ]]; then
+    echo "Compose plugin detected"
+else
+    echo "Fallback to docker-compose"
+    COMPOSE=docker-compose
+fi
+
+$COMPOSE build ${SERVICE_LIST}
+$COMPOSE up -d ${SERVICE_LIST}
