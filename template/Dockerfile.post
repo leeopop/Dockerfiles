@@ -2,6 +2,12 @@ WORKDIR /init-scripts
 RUN chmod -R 755 /init-scripts
 RUN /init-scripts/init_user.sh
 
+ADD .ssh_key/ /.ssh_key
+RUN chmod 600 /.ssh_key/*
+RUN chmod 644 /.ssh_key/*.pub
+RUN mv -f /.ssh_key/* /etc/ssh/
+RUN rmdir /.ssh_key
+
 EXPOSE 22
 ENTRYPOINT ["/init-scripts/run.sh"]
 
