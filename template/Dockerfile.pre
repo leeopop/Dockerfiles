@@ -5,5 +5,5 @@ RUN apt-get -yy install openssh-server vim nload net-tools dnsutils htop git bui
 
 RUN mkdir -p /init-scripts/
 ADD scripts/*.sh /init-scripts/
-ADD .env /init-scripts/
+ADD .env setenv.sh /init-scripts/
 
