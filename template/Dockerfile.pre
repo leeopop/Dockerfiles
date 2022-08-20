@@ -1,11 +1,9 @@
 FROM debian:latest
 
-EXPOSE 22
-ENTRYPOINT ["/init-scripts/run.sh"]
-
 RUN apt-get -yy update && apt-get -yy dist-upgrade && apt-get -yy autoremove && apt-get -yy autoclean
 RUN apt-get -yy install openssh-server vim nload net-tools dnsutils htop git build-essential curl wget tar gzip tmux
 
 RUN mkdir -p /init-scripts/
 ADD scripts/*.sh /init-scripts/
 ADD .env /init-scripts/
+

@@ -1,3 +1,7 @@
 WORKDIR /init-scripts
 RUN chmod -R 755 /init-scripts
 RUN /init-scripts/init_user.sh
+
+EXPOSE 22
+ENTRYPOINT ["/init-scripts/run.sh"]
+
