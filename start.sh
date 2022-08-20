@@ -12,5 +12,8 @@ else
 fi
 
 ./generate.sh
-$COMPOSE build ${SERVICE_LIST}
-$COMPOSE up -d ${SERVICE_LIST}
+
+# For caching purpose
+docker build . -f template/Dockerfile.pre
+
+$COMPOSE up -d --build ${SERVICE_LIST}
