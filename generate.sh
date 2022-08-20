@@ -6,5 +6,5 @@ do
     if [ -f "$target/Dockerfile.template" ] ; then
         cat $target/Dockerfile.template >> $target/Dockerfile
     fi
-    cat template/Dockerfile.post > $target/Dockerfile
+    cat template/Dockerfile.post >> $target/Dockerfile
 done
