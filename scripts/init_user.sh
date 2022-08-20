@@ -17,5 +17,8 @@ if [ -d "/workspace" ] ; then
   chmod 777 /workspace
 fi
 su - $USER_NAME /init-scripts/user_config.sh
+if [ -f "/init-scripts/user_install.sh" ] ; then
+  su - $USER_NAME /init-scripts/user_install.sh
+fi
 
 rm -rf /shared
