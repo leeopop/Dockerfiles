@@ -1,6 +1,6 @@
 #!/bin/bash
 source ./setenv.sh
-for target in debian dpdk node rust
+for target in debian dpdk node rust python
 do
     cat template/Dockerfile.pre > $target/Dockerfile
     if [ -f "$target/Dockerfile.template" ] ; then
