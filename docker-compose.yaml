@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: debian/debian.Dockerfile
     ports:
-      - "${SERVICE_HOST:-127.0.0.1}:23:22"
+      - "${SERVICE_HOST:-127.0.0.1}:12023:22"
     environment:
       - SERVICE_HOST
       - USER_NAME=${USER_NAME:-leeopop}
@@ -19,7 +19,7 @@ services:
       context: .
       dockerfile: dpdk/dpdk.Dockerfile
     ports:
-      - "${SERVICE_HOST:-127.0.0.1}:24:22"
+      - "${SERVICE_HOST:-127.0.0.1}:12024:22"
     environment:
       - SERVICE_HOST
       - USER_NAME=${USER_NAME:-leeopop}
@@ -31,7 +31,7 @@ services:
       context: .
       dockerfile: node/node.Dockerfile
     ports:
-      - "${SERVICE_HOST:-127.0.0.1}:25:22"
+      - "${SERVICE_HOST:-127.0.0.1}:12025:22"
     environment:
       - SERVICE_HOST
     volumes:
