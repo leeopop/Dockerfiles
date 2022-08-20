@@ -1,0 +1,4 @@
+RUN apt-get -yy update && apt-get -yy dist-upgrade && apt-get -yy autoremove && apt-get -yy autoclean && apt-get -yy install \
+    python3-venv
+
+ADD python/*.sh /init-scripts

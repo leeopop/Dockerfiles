@@ -48,5 +48,17 @@ services:
       - USER_NAME=${USER_NAME:-leeopop}
     volumes:
       - workspace:/workspace
+  python:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: python/Dockerfile
+    ports:
+      - "${SERVICE_HOST:-127.0.0.1}:12026:22"
+    environment:
+      - SERVICE_HOST
+      - USER_NAME=${USER_NAME:-leeopop}
+    volumes:
+      - workspace:/workspace
 volumes:
   workspace:
