@@ -11,5 +11,6 @@ else
     COMPOSE=docker-compose
 fi
 
+./generate.sh
 $COMPOSE build ${SERVICE_LIST}
 $COMPOSE up -d ${SERVICE_LIST}

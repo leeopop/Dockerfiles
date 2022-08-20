@@ -15,3 +15,5 @@ RUN ldconfig
 
 WORKDIR /
 RUN rm -rf /dpdk
+
+ADD dpdk/*.sh /init-scripts
