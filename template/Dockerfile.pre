@@ -9,6 +9,7 @@ RUN apt-get -yy install \
     htop \
     git \
     build-essential \
+    gdb \
     curl \
     wget \
     tar \
