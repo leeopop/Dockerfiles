@@ -5,7 +5,7 @@ mkdir -p /shared_env
 echo $GIT_PASSWORD > /shared_env/GIT_PASSWORD
 chmod -R +r /shared_env
 
-usermod --password $ROOT_PASSWORD root
+usermod --password "${ROOT_PASSWORD}" root
 if id "USER_NAME" &>/dev/null; then
   echo "USER $USER_NAME already exists"
 else
