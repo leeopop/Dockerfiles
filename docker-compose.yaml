@@ -2,6 +2,9 @@ version: "3"
 
 services:
   debian:
+    cap_add:
+      - AUDIT_WRITE
+      - AUDIT_CONTROL
     restart: unless-stopped
     build:
       context: .
@@ -14,6 +17,9 @@ services:
     volumes:
       - workspace:/workspace
   node:
+    cap_add:
+      - AUDIT_WRITE
+      - AUDIT_CONTROL
     restart: unless-stopped
     build:
       context: .
@@ -25,6 +31,9 @@ services:
     volumes:
       - workspace:/workspace
   rust:
+    cap_add:
+      - AUDIT_WRITE
+      - AUDIT_CONTROL
     restart: unless-stopped
     build:
       context: .
@@ -37,6 +46,9 @@ services:
     volumes:
       - workspace:/workspace
   dpdk:
+    cap_add:
+      - AUDIT_WRITE
+      - AUDIT_CONTROL
     restart: unless-stopped
     build:
       context: .
@@ -49,6 +61,9 @@ services:
     volumes:
       - workspace:/workspace
   python:
+    cap_add:
+      - AUDIT_WRITE
+      - AUDIT_CONTROL
     restart: unless-stopped
     build:
       context: .
