@@ -1,2 +1,5 @@
 .env
 .ssh_key
+.services
+.password
+docker-compose.yaml

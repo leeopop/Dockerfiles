@@ -1,0 +1,12 @@
+  TARGET_NAME:
+    cap_add:
+      - AUDIT_WRITE
+      - AUDIT_CONTROL
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: TARGET_NAME/Dockerfile
+    ports:
+      - "${SERVICE_HOST:-127.0.0.1}:TARGET_PORT:22"
+    volumes:
+      - workspace:/workspace

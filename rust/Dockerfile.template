@@ -1,1 +1,3 @@
-ADD rust/*.sh /init-scripts
+# Beginning of rust install
+ADD rust/*.sh /install-scripts
+# End of rust install

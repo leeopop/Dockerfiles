@@ -1,0 +1,3 @@
+# Beginning of android install
+ADD android/*.sh /install-scripts
+# End of android install
