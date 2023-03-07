@@ -1,3 +1,4 @@
 .env
 .ssh_key
+.services
 docker-compose.yaml
