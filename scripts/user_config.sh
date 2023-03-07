@@ -35,12 +35,9 @@ echo "PATH=$PATH" >> ~/.profile
 chmod u+x ~/.bin/git-token.sh
 GIT_PASSWORD=`cat /shared/GIT_PASSWORD`
 echo "GIT_PASSWORD=$GIT_PASSWORD" >> ~/.profile
-echo "GIT_ASKPASS=$HOME/.bin/git-token.sh" >> ~/.profile
+echo "GIT_ASKPASS=\$HOME/.bin/git-token.sh" >> ~/.profile
 
 git config --global user.name "Keunhong Lee"
 git config --global user.email dlrmsghd@gmail.com
 git config --global pull.ff only
 
-if [ -d "/workspace" ] ; then
-  ln -sfn /workspace "$HOME/workspace"
-fi

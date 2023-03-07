@@ -1,3 +1,4 @@
+# Beginning of dpdk install
 RUN apt-get install -y linux-headers-amd64
 RUN apt-get install -y build-essential libnuma-dev git meson python3-pyelftools
 RUN apt-get install -y curl
@@ -14,3 +15,5 @@ RUN ldconfig
 
 WORKDIR /
 RUN rm -rf /dpdk
+# End of dpdk install
+
