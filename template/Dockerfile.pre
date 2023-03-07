@@ -28,5 +28,4 @@ RUN apt-get -yy install \
 
 RUN mkdir -p /init-scripts/
 RUN mkdir -p /install-scripts/
-ADD scripts/*.sh /init-scripts/
 # End of Dockerfile-pre

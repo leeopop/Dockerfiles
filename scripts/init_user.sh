@@ -1,5 +1,6 @@
 #!/bin/bash
 cd /init-scripts
+source ./setenv.sh
 
 mkdir -p /shared_env
 echo $GIT_PASSWORD > /shared_env/GIT_PASSWORD
