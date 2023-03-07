@@ -10,6 +10,8 @@
       - "${SERVICE_HOST:-127.0.0.1}:TARGET_PORT:22"
     environment:
       - SERVICE_HOST
-      - USER_NAME=${USER_NAME:-leeopop}
+      - USER_NAME
+      - GIT_PASSWORD
+      - ROOT_PASSWORD
     volumes:
       - workspace:/workspace
