@@ -1,5 +1,6 @@
 #!/bin/bash
-
+cd ~/
+source ~/.profile
 mkdir -p .ssh/
 
 cat >> ~/.ssh/authorized_keys <<EOF
@@ -29,15 +30,16 @@ cat >> ~/.bin/git-token.sh <<EOF
 echo "\$GIT_PASSWORD"
 EOF
 
-PATH=`cat /shared/PATH`
-echo "PATH=$PATH" >> ~/.profile
-
+GIT_PASSWORD=`cat /shared_env/GIT_PASSWORD`
 chmod u+x ~/.bin/git-token.sh
-GIT_PASSWORD=`cat /shared/GIT_PASSWORD`
-echo "GIT_PASSWORD=$GIT_PASSWORD" >> ~/.profile
-echo "GIT_ASKPASS=\$HOME/.bin/git-token.sh" >> ~/.profile
+cat >> ~/.profile <<EOF
+GIT_PASSWORD=$GIT_PASSWORD
+GIT_ASKPASS=\$HOME/.bin/git-token.sh
+EOF
 
 git config --global user.name "Keunhong Lee"
 git config --global user.email dlrmsghd@gmail.com
 git config --global pull.ff only
 
+cd ~/
+source ~/.profile

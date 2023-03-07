@@ -1,6 +1,5 @@
 #!/bin/bash
 cd /init-scripts
-source ./setenv.sh
 
 if [ -d "/workspace" ] ; then
   chmod 777 /workspace

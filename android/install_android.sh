@@ -13,7 +13,7 @@ wget https://services.gradle.org/distributions/gradle-6.3-bin.zip
 unzip gradle-6.3-bin.zip
 rm gradle-6.3-bin.zip
 
-mkdir -p ~/.gradle
+mkdir -p ~/.android-sdk
 cd ~/.android-sdk
 wget https://dl.google.com/android/repository/commandlinetools-linux-6200805_latest.zip
 unzip commandlinetools-linux-6200805_latest.zip
@@ -24,4 +24,3 @@ sdkmanager --sdk_root=${ANDROID_HOME} "ndk-bundle"
 source ~/.profile
 cd ~/
 # End of android user install
-

@@ -1,11 +1,9 @@
 #!/bin/bash
 cd /init-scripts
-source ./setenv.sh
 
-mkdir -p /shared
-echo $GIT_PASSWORD > /shared/GIT_PASSWORD
-echo $PATH > /shared/PATH
-chmod -R +r /shared
+mkdir -p /shared_env
+echo $GIT_PASSWORD > /shared_env/GIT_PASSWORD
+chmod -R +r /shared_env
 
 usermod --password $ROOT_PASSWORD root
 if id "USER_NAME" &>/dev/null; then
@@ -13,10 +11,10 @@ if id "USER_NAME" &>/dev/null; then
 else
   useradd -ms /bin/bash "$USER_NAME"
 fi
-if [ -d "/workspace" ] ; then
-  chmod 777 /workspace
-fi
-su - $USER_NAME /init-scripts/user_config.sh
-su - $USER_NAME /init-scripts/user_install.sh
 
-rm -rf /shared
+(
+cat /init-scripts/init_user_config.sh
+(cat /install-scripts/* 2>/dev/null || true)
+) | su - $USER_NAME
+
+rm -rf /shared_env
