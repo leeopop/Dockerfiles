@@ -1,0 +1,2 @@
+ADD android/*.sh /init-scripts
+RUN cat /init-scripts/install_android.sh >> /init-scripts/user_install.sh

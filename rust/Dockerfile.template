@@ -1,1 +1,2 @@
 ADD rust/*.sh /init-scripts
+RUN cat /init-scripts/install_rust.sh >> /init-scripts/user_install.sh

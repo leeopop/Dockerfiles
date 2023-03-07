@@ -30,12 +30,12 @@ echo "\$GIT_PASSWORD"
 EOF
 
 PATH=`cat /shared/PATH`
-echo "export PATH=$PATH" >> ~/.profile
+echo "PATH=$PATH" >> ~/.profile
 
 chmod u+x ~/.bin/git-token.sh
 GIT_PASSWORD=`cat /shared/GIT_PASSWORD`
-echo "export GIT_PASSWORD=$GIT_PASSWORD" >> ~/.profile
-echo "export GIT_ASKPASS=$HOME/.bin/git-token.sh" >> ~/.profile
+echo "GIT_PASSWORD=$GIT_PASSWORD" >> ~/.profile
+echo "GIT_ASKPASS=$HOME/.bin/git-token.sh" >> ~/.profile
 
 git config --global user.name "Keunhong Lee"
 git config --global user.email dlrmsghd@gmail.com
