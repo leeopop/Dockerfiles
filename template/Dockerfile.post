@@ -1,4 +1,9 @@
+# Beginning of Dockerfile-post
+
 WORKDIR /init-scripts
+ADD scripts/*.sh /init-scripts/
+ADD .env .password setenv.sh /init-scripts/
+
 RUN chmod -R 755 /init-scripts
 RUN /init-scripts/init_user.sh
 
@@ -8,6 +13,9 @@ RUN chmod 644 /.ssh_key/*.pub
 RUN mv -f /.ssh_key/* /etc/ssh/
 RUN rmdir /.ssh_key
 
+RUN rm -rf /init-scripts/init_*
+RUN rm -rf /install-scripts/
+
 EXPOSE 22
 ENTRYPOINT ["/init-scripts/run.sh"]
-
+# End of Dockerfile-post

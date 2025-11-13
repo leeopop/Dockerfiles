@@ -1,0 +1,3 @@
+# Beginning of java user install
+RUN apt-get install -yy default-jdk
+# End of java user install

@@ -1,3 +1,4 @@
+# Beginning of Dockerfile-pre
 FROM debian:latest
 
 RUN apt-get -yy update && apt-get -yy dist-upgrade && apt-get -yy autoremove && apt-get -yy autoclean
@@ -14,14 +15,17 @@ RUN apt-get -yy install \
     wget \
     tar \
     gzip \
+    unzip \
     tmux \
     sysstat \
     netcat \
     iperf3 \
     nmap \
+    man \
+    whois \
+    apt-transport-https \
     openssh-server
 
 RUN mkdir -p /init-scripts/
-ADD scripts/*.sh /init-scripts/
-ADD .env setenv.sh /init-scripts/
-
+RUN mkdir -p /install-scripts/
+# End of Dockerfile-pre
