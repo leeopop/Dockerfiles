@@ -32,7 +32,7 @@ do
         INCLUDE_LIST=(${NEW_INCLUDE_LIST[@]})
     done
     cat template/Dockerfile.pre > ${target}/Dockerfile
-    INCLUDE_TEMPLATES=( "${INCLUDE_LIST[@]/%/\/Dockerfile.template}" )
+    INCLUDE_TEMPLATES=( "${INCLUDE_LIST[@]/%//Dockerfile.template}" )
     (cat ${INCLUDE_TEMPLATES[@]} 2>/dev/null || true) >> ${target}/Dockerfile
     cat template/Dockerfile.post >> ${target}/Dockerfile
 
