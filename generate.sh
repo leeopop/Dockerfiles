@@ -20,20 +20,29 @@ do
     while :
     do
         # echo "  Include list for ${target}: ${INCLUDE_LIST[@]}"
-        INCLUDE_FILES=( "${INCLUDE_LIST[@]/%/\/.includes}" )
-        NEW_INCLUDE_LIST=`((echo ${INCLUDE_LIST} | tr ' ' '\n'); (cat ${INCLUDE_FILES[@]} 2>/dev/null || true)) | sort -u | tr '\n' ' '`
+        INCLUDE_FILES=()
+        for item in "${INCLUDE_LIST[@]}"; do
+            INCLUDE_FILES+=("${item}/.includes")
+        done
+        NEW_INCLUDE_LIST=`((printf '%s\n' "${INCLUDE_LIST[@]}"); (cat "${INCLUDE_FILES[@]}" 2>/dev/null || true)) | sort -u | tr '\n' ' '`
         NEW_INCLUDE_LIST=(${NEW_INCLUDE_LIST})
-        if [[ "${NEW_INCLUDE_LIST[@]}" == "${INCLUDE_LIST[@]}" ]];
+        # Compare arrays by converting to strings
+        OLD_STR=$(printf '%s ' "${INCLUDE_LIST[@]}")
+        NEW_STR=$(printf '%s ' "${NEW_INCLUDE_LIST[@]}")
+        if [[ "${OLD_STR}" == "${NEW_STR}" ]];
         then
             # echo "  No more updates"
             echo "  Includes: ${INCLUDE_LIST[@]}"
             break
         fi
-        INCLUDE_LIST=(${NEW_INCLUDE_LIST[@]})
+        INCLUDE_LIST=("${NEW_INCLUDE_LIST[@]}")
     done
     cat template/Dockerfile.pre > ${target}/Dockerfile
-    INCLUDE_TEMPLATES=( "${INCLUDE_LIST[@]/%//Dockerfile.template}" )
-    (cat ${INCLUDE_TEMPLATES[@]} 2>/dev/null || true) >> ${target}/Dockerfile
+    for include in "${INCLUDE_LIST[@]}"; do
+        if [[ -f "${include}/Dockerfile.template" ]]; then
+            cat "${include}/Dockerfile.template" >> ${target}/Dockerfile
+        fi
+    done
     cat template/Dockerfile.post >> ${target}/Dockerfile
 
     # Install docker-compose template

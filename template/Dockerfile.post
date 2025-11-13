@@ -3,6 +3,7 @@
 WORKDIR /init-scripts
 ADD scripts/*.sh /init-scripts/
 ADD .env .password setenv.sh /init-scripts/
+ADD .configs/ /init-scripts/.configs/
 
 RUN chmod -R 755 /init-scripts
 RUN /init-scripts/init_user.sh
