@@ -10,6 +10,8 @@ RUN apt-get -yy install \
     htop \
     git \
     build-essential \
+    cmake \
+    autoconf \
     gdb \
     curl \
     wget \
@@ -18,10 +20,10 @@ RUN apt-get -yy install \
     unzip \
     tmux \
     sysstat \
-    netcat \
     iperf3 \
     nmap \
     man \
+    sudo \
     whois \
     apt-transport-https \
     openssh-server
