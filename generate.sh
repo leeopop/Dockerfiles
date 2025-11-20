@@ -13,7 +13,7 @@ process_dockerfile_template() {
         # If line matches "ADD */*.sh /install-scripts" pattern, add RUN command to rename
         if [[ "$line" =~ ^ADD[[:space:]].*\/\*\.sh[[:space:]]\/install-scripts ]]; then
             echo "# Rename scripts without numeric prefix"
-            echo "RUN cd /install-scripts && for f in *.sh; do if [[ ! \"\$f\" =~ ^[0-9][0-9]_ ]]; then mv \"\$f\" \"${prefix}_\$f\"; fi; done"
+            echo "RUN cd /install-scripts && for f in *.sh; do case \"\$f\" in [0-9][0-9]_*) ;; *) mv \"\$f\" \"${prefix}_\$f\" ;; esac; done"
         fi
     done < "$input_file"
 }
