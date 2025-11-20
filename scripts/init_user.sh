@@ -26,7 +26,11 @@ fi
 
 (
 cat /init-scripts/init_user_config.sh
-(cat /install-scripts/* 2>/dev/null || true)
+if [ -d /install-scripts ]; then
+  for script in $(ls /install-scripts/* 2>/dev/null | sort); do
+    [ -f "$script" ] && cat "$script"
+  done
+fi
 ) | su - ${USER_NAME}
 
 rm -rf /shared_env
