@@ -2,6 +2,22 @@
 source ./setenv.sh
 SKIP_LIST=("scripts" "template")
 
+# Function to process Dockerfile template and add rename command after ADD instructions
+# Usage: process_dockerfile_template <input_file> <prefix_number>
+process_dockerfile_template() {
+    local input_file="$1"
+    local prefix="$2"
+    
+    while IFS= read -r line; do
+        echo "$line"
+        # If line matches "ADD */*.sh /install-scripts" pattern, add RUN command to rename
+        if [[ "$line" =~ ^ADD[[:space:]].*\/\*\.sh[[:space:]]\/install-scripts ]]; then
+            echo "# Rename scripts without numeric prefix"
+            echo "RUN cd /install-scripts && for f in *.sh; do if [[ ! \"\$f\" =~ ^[0-9][0-9]_ ]]; then mv \"\$f\" \"${prefix}_\$f\"; fi; done"
+        fi
+    done < "$input_file"
+}
+
 # Reset compose file
 cat template/docker-compose.yaml.pre > docker-compose.yaml
 
@@ -24,7 +40,9 @@ do
         for item in "${INCLUDE_LIST[@]}"; do
             INCLUDE_FILES+=("${item}/.includes")
         done
-        NEW_INCLUDE_LIST=`((printf '%s\n' "${INCLUDE_LIST[@]}"); (cat "${INCLUDE_FILES[@]}" 2>/dev/null || true)) | sort -u | tr '\n' ' '`
+        # Collect new includes and append original list at the end
+        NEW_INCLUDES=`(cat "${INCLUDE_FILES[@]}" 2>/dev/null || true) | sort -u | tr '\n' ' '`
+        NEW_INCLUDE_LIST=`((printf '%s\n' ${NEW_INCLUDES}); (printf '%s\n' "${INCLUDE_LIST[@]}")) | awk '!seen[$0]++' | tr '\n' ' '`
         NEW_INCLUDE_LIST=(${NEW_INCLUDE_LIST})
         # Compare arrays by converting to strings
         OLD_STR=$(printf '%s ' "${INCLUDE_LIST[@]}")
@@ -38,11 +56,17 @@ do
         INCLUDE_LIST=("${NEW_INCLUDE_LIST[@]}")
     done
     cat template/Dockerfile.pre > ${target}/Dockerfile
+    
+    # Process Dockerfile templates and add numbered prefix to install scripts
+    prefix_counter=0
     for include in "${INCLUDE_LIST[@]}"; do
         if [[ -f "${include}/Dockerfile.template" ]]; then
-            cat "${include}/Dockerfile.template" >> ${target}/Dockerfile
+            prefix=$(printf "%02d" $prefix_counter)
+            process_dockerfile_template "${include}/Dockerfile.template" "$prefix" >> ${target}/Dockerfile
+            ((prefix_counter++))
         fi
     done
+    
     cat template/Dockerfile.post >> ${target}/Dockerfile
 
     # Install docker-compose template
