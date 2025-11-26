@@ -16,6 +16,7 @@ RUN rmdir /.ssh_key
 
 RUN rm -rf /init-scripts/init_*
 RUN rm -rf /install-scripts/
+RUN apt-get -yy autoremove && apt-get -yy autoclean
 
 EXPOSE 22
 ENTRYPOINT ["/init-scripts/run.sh"]

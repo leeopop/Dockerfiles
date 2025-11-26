@@ -3,29 +3,9 @@ FROM debian:latest
 
 RUN apt-get -yy update && apt-get -yy dist-upgrade && apt-get -yy autoremove && apt-get -yy autoclean
 RUN apt-get -yy install \
-    vim \
-    nload \
-    net-tools \
-    dnsutils \
-    htop \
-    git \
-    build-essential \
-    cmake \
-    autoconf \
-    gdb \
-    curl \
-    wget \
-    tar \
-    gzip \
-    unzip \
-    tmux \
-    sysstat \
-    iperf3 \
-    nmap \
-    man \
-    sudo \
-    whois \
     apt-transport-https \
+    git \
+    sudo \
     openssh-server
 
 RUN mkdir -p /init-scripts/
