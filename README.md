@@ -38,6 +38,7 @@ export USER_NAME=your_user_name
 이 스크립트는 자동으로 다음 설정들을 가져옵니다:
 - **SSH 공개 키**: `~/.ssh/*.pub` 파일들을 모아서 `authorized_keys`로 설정
 - **Git 설정**: `~/.gitconfig` 파일이 있으면 컨테이너에 복사
+- **베이스 이미지**: 기본값은 `debian:latest`이며, `.env`의 `BASE_IMAGE`로 변경할 수 있습니다
 
 ### 4. Dockerfile 생성
 

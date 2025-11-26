@@ -2,6 +2,11 @@
 source ./setenv.sh
 SKIP_LIST=("scripts" "template")
 
+BASE_IMAGE=${BASE_IMAGE:-debian:latest}
+# Escape characters that would break sed replacement
+BASE_IMAGE_SED=${BASE_IMAGE//\/\\}
+BASE_IMAGE_SED=${BASE_IMAGE_SED//&/\\&}
+
 # Function to process Dockerfile template and add rename command after ADD instructions
 # Usage: process_dockerfile_template <input_file> <prefix_number>
 process_dockerfile_template() {
@@ -55,7 +60,7 @@ do
         fi
         INCLUDE_LIST=("${NEW_INCLUDE_LIST[@]}")
     done
-    cat template/Dockerfile.pre > ${target}/Dockerfile
+    sed "s#^FROM .*#FROM ${BASE_IMAGE_SED}#" template/Dockerfile.pre > "${target}/Dockerfile"
     
     # Process Dockerfile templates and add numbered prefix to install scripts
     prefix_counter=0
