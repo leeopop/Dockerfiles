@@ -7,22 +7,6 @@ BASE_IMAGE=${BASE_IMAGE:-debian:latest}
 BASE_IMAGE_SED=${BASE_IMAGE//\/\\}
 BASE_IMAGE_SED=${BASE_IMAGE_SED//&/\\&}
 
-# Function to process Dockerfile template and add rename command after ADD instructions
-# Usage: process_dockerfile_template <input_file> <prefix_number>
-process_dockerfile_template() {
-    local input_file="$1"
-    local prefix="$2"
-    
-    while IFS= read -r line; do
-        echo "$line"
-        # If line matches "ADD */*.sh /install-scripts" pattern, add RUN command to rename
-        if [[ "$line" =~ ^ADD[[:space:]].*\/\*\.sh[[:space:]]\/install-scripts ]]; then
-            echo "# Rename scripts without numeric prefix"
-            echo "RUN cd /install-scripts && for f in *.sh; do case \"\$f\" in [0-9][0-9]_*) ;; *) mv \"\$f\" \"${prefix}_\$f\" ;; esac; done"
-        fi
-    done < "$input_file"
-}
-
 # Reset compose file
 cat template/docker-compose.yaml.pre > docker-compose.yaml
 
@@ -67,7 +51,10 @@ do
     for include in "${INCLUDE_LIST[@]}"; do
         if [[ -f "${include}/Dockerfile.template" ]]; then
             prefix=$(printf "%02d" $prefix_counter)
-            process_dockerfile_template "${include}/Dockerfile.template" "$prefix" >> ${target}/Dockerfile
+            echo "# Beginning of ${include} template" >> ${target}/Dockerfile
+            cat "${include}/Dockerfile.template" >> ${target}/Dockerfile
+            echo "RUN cd /install-scripts && for f in *.sh; do [ -f \"\$f\" ] || continue; case \"\$f\" in [0-9][0-9]_*) ;; *) mv \"\$f\" \"${prefix}_\$f\" ;; esac; done" >> ${target}/Dockerfile
+            echo "# End of ${include} template" >> ${target}/Dockerfile
             ((prefix_counter++))
         fi
     done

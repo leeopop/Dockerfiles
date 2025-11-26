@@ -1,5 +1,3 @@
-# Beginning of python install
-RUN apt-get -yy install python3-venv
 
+RUN apt-get -yy install python3-venv
 ADD python/*.sh /install-scripts
-# End of python install
