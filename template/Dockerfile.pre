@@ -2,6 +2,7 @@
 FROM debian:latest
 
 RUN apt-get -yy update && apt-get -yy dist-upgrade && apt-get -yy autoremove && apt-get -yy autoclean
+# Packages needed for basic init scripts
 RUN apt-get -yy install \
     apt-transport-https \
     git \
