@@ -30,7 +30,7 @@ do
             INCLUDE_FILES+=("${item}/.includes")
         done
         # Collect new includes and append original list at the end
-        NEW_INCLUDES=`(cat "${INCLUDE_FILES[@]}" 2>/dev/null || true) | sort -u | tr '\n' ' '`
+        NEW_INCLUDES=`(cat "${INCLUDE_FILES[@]}" 2>/dev/null || true) | tr '\n' ' '`
         NEW_INCLUDE_LIST=`((printf '%s\n' ${NEW_INCLUDES}); (printf '%s\n' "${INCLUDE_LIST[@]}")) | awk '!seen[$0]++' | tr '\n' ' '`
         NEW_INCLUDE_LIST=(${NEW_INCLUDE_LIST})
         # Compare arrays by converting to strings
