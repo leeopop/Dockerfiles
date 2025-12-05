@@ -1,4 +1,5 @@
 RUN apt-get -yy install \
+    bash-completion \
     vim \
     nload \
     net-tools \
@@ -6,16 +7,34 @@ RUN apt-get -yy install \
     htop \
     build-essential \
     cmake \
+    pkg-config \
     autoconf \
+    git \
+    gh \
+    locales \
     gdb \
     curl \
     wget \
+    jq \
     tar \
     gzip \
+    zip \
     unzip \
+    zstd \
     tmux \
     sysstat \
     iperf3 \
     nmap \
     man \
     whois
+RUN sed -i 's/^# \+\(en_US.UTF-8 UTF-8\)/\1/' /etc/locale.gen && locale-gen en_US.UTF-8
+RUN cat >> /etc/bash.bashrc <<'EOF'
+# enable bash completion in interactive shells
+if ! shopt -oq posix; then
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
+fi
+EOF
