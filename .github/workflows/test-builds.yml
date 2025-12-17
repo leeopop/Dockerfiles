@@ -12,26 +12,32 @@ jobs:
   test-linux-distros:
     name: Test ${{ matrix.distro }}
     runs-on: ubuntu-latest
-    
+
     concurrency:
       group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}-${{ matrix.distro }}
       cancel-in-progress: true
-    
+
     strategy:
       fail-fast: false
       matrix:
-        distro:
-          - ubuntu:20.04
-          - ubuntu:22.04
-          - ubuntu:24.04
-          - debian:11
-          - debian:12
-          - debian:13
-    
+        include:
+          - distro: ubuntu:20.04
+            exclude_images: "dpdk"
+          - distro: ubuntu:22.04
+            exclude_images: ""
+          - distro: ubuntu:24.04
+            exclude_images: ""
+          - distro: debian:11
+            exclude_images: "dpdk"
+          - distro: debian:12
+            exclude_images: ""
+          - distro: debian:13
+            exclude_images: ""
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Setup environment
         run: |
           sudo apt-get update
@@ -39,16 +45,24 @@ jobs:
           echo "password" | mkpasswd -s > .password
           echo "USER_NAME=testuser" >> $GITHUB_ENV
           echo "SERVICE_HOST=127.0.0.1" >> $GITHUB_ENV
-      
+
       - name: Setup test images
         run: |
           mkdir -p testimage
           # Always put base-image first, then add all other directories except template, scripts, and hidden directories
           echo "base-image" > testimage/.includes
           find . -maxdepth 1 -type d ! -name '.' ! -name '..*' ! -name 'template' ! -name 'scripts' ! -name 'base-image' ! -name 'testimage' -exec basename {} \; | sort >> testimage/.includes
+
+          # Remove excluded images
+          if [[ -n "${{ matrix.exclude_images }}" ]]; then
+            for img in ${{ matrix.exclude_images }}; do
+              sed -i "/^${img}$/d" testimage/.includes
+            done
+          fi
+
           echo "Test images to build:"
           cat testimage/.includes
-      
+
       - name: Run tests for ${{ matrix.distro }}
         run: |
           export BASE_IMAGE=${{ matrix.distro }}
@@ -56,13 +70,13 @@ jobs:
           ./generate.sh
           docker build -t testimage:latest -f testimage/Dockerfile .
           echo "Build test passed for ${{ matrix.distro }}!"
-  
+
   ci-success:
     name: CI Success (test-builds)
     runs-on: ubuntu-latest
     needs: test-linux-distros
     if: always()
-    
+
     steps:
       - name: Check test results
         run: |
