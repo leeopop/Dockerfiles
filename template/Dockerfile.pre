@@ -1,6 +1,9 @@
 # Beginning of Dockerfile-pre
 FROM debian:latest
 
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
 RUN apt-get -yy update && apt-get -yy dist-upgrade && apt-get -yy autoremove && apt-get -yy autoclean
 # Packages needed for basic init scripts
 RUN apt-get -yy install \

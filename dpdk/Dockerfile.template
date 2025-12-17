@@ -1,4 +1,4 @@
-RUN apt-get install -y linux-headers-amd64
+RUN apt-get install -y linux-headers-amd64 || apt-get install -y linux-headers-generic
 RUN apt-get install -y build-essential libnuma-dev git meson python3-pyelftools
 RUN apt-get install -y curl
 RUN apt-get install -y libclang-dev clang llvm-dev
