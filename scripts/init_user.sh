@@ -25,12 +25,21 @@ if [ -d "/init-scripts/.configs" ]; then
 fi
 
 (
+echo "rm -f ~/.init_user_done"
 cat /init-scripts/init_user_config.sh
 if [ -d /install-scripts ]; then
   for script in $(ls /install-scripts/* 2>/dev/null | sort); do
     [ -f "$script" ] && cat "$script"
   done
 fi
+echo "touch ~/.init_user_done"
 ) | su - ${USER_NAME}
+
+# Check if the user initialization is done
+if [ ! -f /home/${USER_NAME}/.init_user_done ]; then
+  echo "[ERROR] User initialization failed!"
+  exit 1
+fi
+rm -f /home/${USER_NAME}/.init_user_done
 
 rm -rf /shared_env
