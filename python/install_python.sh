@@ -1,9 +1,5 @@
-# Beginning of python user install
-python3 -m venv ~/.venv
-source ~/.venv/bin/activate
-pip install --upgrade pip setuptools wheel
-
-cat <<EOF >> ~/.profile
-source "${HOME}/.venv/bin/activate"
-EOF
-# End of python user install
+# Beginning of uv user install
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source ~/.profile
+uv --version
+# End of uv user install
