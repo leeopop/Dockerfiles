@@ -2,5 +2,5 @@
 .ssh_key
 .services
 .password
-.configs
+/.configs
 docker-compose.yaml
