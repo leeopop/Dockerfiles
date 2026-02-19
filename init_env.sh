@@ -36,9 +36,4 @@ if [[ ! -d .configs ]]; then
         mkdir -p .configs/.ssh
         cat ~/.ssh/*.pub > .configs/.ssh/authorized_keys
     fi
-
-    # Copy gitconfig if it exists
-    if [ -f ~/.gitconfig ]; then
-        cp ~/.gitconfig .configs/.gitconfig
-    fi
 fi
