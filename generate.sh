@@ -21,6 +21,21 @@ do
     else
         echo "Generating template for ${target}..."
     fi
+    # Copy config files listed in .configs to project's .configs directory
+    if [[ -f "${target}/.configs" ]]; then
+        while IFS= read -r config_path || [[ -n "$config_path" ]]; do
+            # Skip empty lines and comments
+            [[ -z "$config_path" || "$config_path" == \#* ]] && continue
+            src="${HOME}/${config_path}"
+            dst=".configs/${config_path}"
+            if [[ -f "$src" ]]; then
+                mkdir -p "$(dirname "$dst")"
+                cp "$src" "$dst"
+                echo "  Copied config: ${config_path}"
+            fi
+        done < "${target}/.configs"
+    fi
+
     INCLUDE_LIST=(${target})
     while :
     do
