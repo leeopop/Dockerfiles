@@ -1,3 +1,7 @@
+# Disable copy-on-select for OpenCode CLI
+echo 'export OPENCODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT=true' >> $HOME/.bashrc
+source $HOME/.bashrc
+
 # Install OpenCode CLI
 curl -fsSL https://opencode.ai/install | bash
 
