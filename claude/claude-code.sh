@@ -1,5 +1,5 @@
 # Install Claude Code CLI
-curl -fsSL https://claude.ai/install.sh | bash
+curl -fsSL https://claude.ai/install.sh | bash -s stable
 
 # Add claude to PATH
 export PATH="$HOME/.local/bin:$HOME/.claude/bin:$PATH"
