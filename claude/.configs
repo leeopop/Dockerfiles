@@ -1,3 +1,4 @@
 .claude/.credentials.json
 .claude/settings.json
 .claude/keybindings.json
+.claude.json
