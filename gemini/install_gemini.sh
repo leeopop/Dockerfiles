@@ -22,7 +22,7 @@ if [ -f "$HOME/.gemini/settings.json" ]; then
     TEST_FILE="GEMINI_TEST_DONE"
     rm -f "$TEST_FILE"
 
-    timeout 30 gemini --yolo -p "create an empty file named $TEST_FILE in the current directory" < /dev/null
+    timeout 30 gemini --yolo -p "create an empty file named \`$TEST_FILE\` in the current directory" < /dev/null
 
     if [ -f "$TEST_FILE" ]; then
         echo "[OK] gemini command executed successfully"

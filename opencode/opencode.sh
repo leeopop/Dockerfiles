@@ -22,7 +22,7 @@ echo "Testing opencode run command..."
 TEST_FILE="OPENCODE_TEST_DONE"
 rm -f "$TEST_FILE" # Remove if exists from previous run
 
-timeout 10 opencode run "create an empty file named $TEST_FILE" < /dev/null
+timeout 30 opencode run "create an empty file named \`$TEST_FILE\` in the current directory" < /dev/null
 
 # Check if test file was created
 if [ -f "$TEST_FILE" ]; then
