@@ -24,7 +24,7 @@ if [ -f "$HOME/.claude/.credentials.json" ]; then
     TEST_FILE="CLAUDE_TEST_DONE"
     rm -f "$TEST_FILE"
 
-    timeout 30 claude -p "create an empty file named $TEST_FILE in the current directory" --allowedTools "Bash" < /dev/null
+    timeout 30 claude -p "create an empty file named \`$TEST_FILE\` in the current directory" --allowedTools "Bash" < /dev/null
 
     if [ -f "$TEST_FILE" ]; then
         echo "[OK] claude command executed successfully"
