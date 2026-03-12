@@ -1,8 +1,3 @@
-# Beginning of npm user config
-mkdir -p ~/.npm-global
-npm config set prefix '~/.npm-global'
-cat >> ~/.profile <<'EOF'
-export PATH=~/.npm-global/bin:$PATH
-EOF
+curl https://get.volta.sh | bash
 source ~/.profile
-# End of npm user config
+volta install node
