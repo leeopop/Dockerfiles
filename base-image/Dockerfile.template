@@ -30,6 +30,8 @@ RUN apt-get -yy install \
     tmux \
     sysstat \
     iperf3 \
+    pass \
+    gnupg \
     man \
     whois \
     cron
