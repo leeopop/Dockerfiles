@@ -21,11 +21,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - distro: ubuntu:20.04
-            exclude_images: "dpdk"
           - distro: ubuntu:22.04
             exclude_images: ""
           - distro: ubuntu:24.04
+            exclude_images: ""
+          - distro: ubuntu:26.04
             exclude_images: ""
           - distro: debian:11
             exclude_images: "dpdk"
