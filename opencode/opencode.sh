@@ -23,33 +23,43 @@ echo ""
 echo "Testing opencode run command..."
 COMMAND_CHECK=1
 TEST_COUNT=0
+AUTH_AVAILABLE=1
 
 if [ ! -f "$AUTH_FILE" ]; then
-    echo "[FAILED] Auth file not found: $AUTH_FILE"
-    exit 1
-fi
+    echo "[INFO] Auth file not found: $AUTH_FILE"
+    echo "[INFO] Falling back to default OpenCode free model (no --model option)."
+    AUTH_AVAILABLE=0
+else
+    if ! command -v jq >/dev/null 2>&1; then
+        echo "[FAILED] jq is not installed. Please check the image configuration."
+        exit 1
+    fi
 
-if ! command -v jq >/dev/null 2>&1; then
-    echo "[FAILED] jq is not installed. Please check the image configuration."
-    exit 1
-fi
-
-if ! jq empty "$AUTH_FILE" >/dev/null 2>&1; then
-    echo "[FAILED] Auth file is not valid JSON: $AUTH_FILE"
-    exit 1
+    if ! jq empty "$AUTH_FILE" >/dev/null 2>&1; then
+        echo "[FAILED] Auth file is not valid JSON: $AUTH_FILE"
+        exit 1
+    fi
 fi
 
 run_model_test() {
-    provider="$1"
-    model="$2"
-    test_file="$3"
+    test_file="$1"
+    provider="$2"
+    model="$3"
 
     TEST_COUNT=$((TEST_COUNT + 1))
     echo ""
-    echo "Testing provider '$provider' with model '$model'..."
+    if [ -n "$model" ]; then
+        echo "Testing provider '$provider' with model '$model'..."
+    else
+        echo "Testing provider '$provider' with default OpenCode model (no --model option)..."
+    fi
 
     rm -f "$test_file"
-    timeout 30 opencode run --model "$model" "create an empty file named \`$test_file\` in the current directory" < /dev/null
+    set --
+    if [ -n "$model" ]; then
+        set -- --model "$model"
+    fi
+    timeout 30 opencode run "$@" "create an empty file named \`$test_file\` in the current directory" < /dev/null
 
     if [ -f "$test_file" ]; then
         echo "[OK] opencode run command executed successfully for '$provider'"
@@ -60,17 +70,24 @@ run_model_test() {
     fi
 }
 
-if jq -e 'has("openai")' "$AUTH_FILE" >/dev/null 2>&1; then
-    run_model_test "openai" "openai/gpt-5.4" "OPENCODE_TEST_OPENAI_DONE"
-fi
+if [ "$AUTH_AVAILABLE" -eq 1 ]; then
+    if jq -e 'has("openai")' "$AUTH_FILE" >/dev/null 2>&1; then
+        run_model_test "OPENCODE_TEST_OPENAI_DONE" "openai" "openai/gpt-5.4"
+    fi
 
-if jq -e 'has("anthropic")' "$AUTH_FILE" >/dev/null 2>&1; then
-    run_model_test "anthropic" "anthropic/claude-opus-4-7" "OPENCODE_TEST_ANTHROPIC_DONE"
+    if jq -e 'has("anthropic")' "$AUTH_FILE" >/dev/null 2>&1; then
+        run_model_test "OPENCODE_TEST_ANTHROPIC_DONE" "anthropic" "anthropic/claude-opus-4-7"
+    fi
+else
+    run_model_test "OPENCODE_TEST_DEFAULT_DONE" "default"
 fi
 
 if [ "$TEST_COUNT" -eq 0 ]; then
-    echo "[FAILED] No supported auth providers found in $AUTH_FILE"
-    exit 1
+    if [ "$AUTH_AVAILABLE" -eq 1 ]; then
+        echo "[INFO] No supported auth providers found in $AUTH_FILE"
+        echo "[INFO] Falling back to default OpenCode free model (no --model option)."
+    fi
+    run_model_test "OPENCODE_TEST_DEFAULT_DONE" "default"
 fi
 
 
