@@ -1,0 +1,2 @@
+RUN apt-get -yy install bubblewrap
+ADD codex/*.sh /install-scripts
