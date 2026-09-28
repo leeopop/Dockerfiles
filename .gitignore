@@ -4,3 +4,4 @@
 .password
 /.configs
 docker-compose.yaml
+/._*
